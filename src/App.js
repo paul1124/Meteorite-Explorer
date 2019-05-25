@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Results from './Results';
+import './App.scss';
 
-function App() {
+export default function App() {
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ items, setItems ] = useState([]);
+  const [ query, setQuery ] = useState('');
+  const [ data, setData ] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://data.nasa.gov/resource/gh4g-9sfh.json`)
+      .then(res => res.json())
+      .then(
+        res => {
+          setData(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  })
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="main">
+        <div className="app-header"><h2>Meteorite Explorer</h2></div>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="inputs">
+            <input value={query} onChange={handleChange} type="text" className="input" placeholder="Enter Search Value" />
+            <input type="submit" value="SEARCH" />
+          </div>
+        </form>
+
+        {
+          isOpen && <Results items={items}/>
+        }
+      </div>
     </div>
   );
-}
 
-export default App;
+  function handleChange(e) {
+    e.preventDefault();
+    setQuery(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setIsOpen(true);
+    if(query === '') {
+      setItems(data);
+      return;
+    }
+    
+    const newResult = data.filter(result => {
+      const resultLowerCase = result.name.toLowerCase();
+      const queryLowerCase = query.toLowerCase();
+      return resultLowerCase.includes(queryLowerCase);
+    });
+    setItems(newResult);
+  }
+}

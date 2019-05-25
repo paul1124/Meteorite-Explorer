@@ -1,0 +1,53 @@
+@import '~antd/dist/antd.css';
+@import url("https://use.typekit.net/ojv4ekx.css");
+
+.App {
+  overflow: hidden;
+  text-align: center;
+  background-image: linear-gradient((rgba(59, 59, 59, 0.68), rgba(0, 0, 0, 0.68))), url('./img/wallpaper.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'eurostile';
+}
+
+.app-header {
+  width: 100%;
+  font-size: 2em;
+  h2 {
+    margin-top: 5em;
+    text-transform: uppercase;
+    color: white;
+  }
+}
+
+.form {
+  .inputs {
+    margin: 2em auto;
+  }
+  input[type=text] {
+    width: 25em;
+    margin: 0 2em;
+    height: 2em;
+    padding: 0 0.5em;
+  }
+  input[type=submit] {
+    width: 6em;
+    background-color: white;
+    height: 2em;
+    border-radius: 3px;
+    border: 1px solid white;
+    &:hover {
+      cursor: pointer;
+      background-color: blue;
+      border: 1px solid blue;
+      color: white;
+    }
+  }
+}
